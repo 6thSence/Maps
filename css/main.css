@@ -692,6 +692,9 @@ footer {
 /* --------- sections --------- */
 body {
   background: #f6f2de;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .map__wrapper {
@@ -744,9 +747,14 @@ body {
   max-width: 90%;
 }
 
-.wide {
+.wide.active {
   width: 90%;
   max-width: 960px;
+}
+
+.wide {
+  width: 400px;
+  max-width: 90%;
 }
 
 /* --------- media queries --------- */
