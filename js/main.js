@@ -27,13 +27,10 @@ var main = (function(){
             p = document.createElement('p'),
             divInn = document.createElement('div'),
             marginLeft = count*60,
-            doc_w = $(document).width()-400;
-        console.log(doc_w<marginLeft);
-        if (doc_w<marginLeft) {
-            marginLeft = doc_w-60+'px';
-        }else{
-            marginLeft = marginLeft+'px';
-        }
+            doc_w = document.documentElement.clientWidth-400,
+            flarLast = false;
+
+
         divInn.className = "map__number_content";
         count=count+1;
         console.log(count);
@@ -41,12 +38,38 @@ var main = (function(){
         p.innerText = count;
         divInn.appendChild(p);
         if (event.altKey) {
-            div.className = "map wide active";
-            div.setAttribute('onclick','main.clickMap(this)');
+            console.log(doc_w);
+            console.log(marginLeft);
+
+            console.log(doc_w-560<marginLeft);
+            if (doc_w<marginLeft) {
+                flarLast = true;
+                marginLeft = doc_w-60+'px';
+            }else{
+                marginLeft = marginLeft+'px';
+            }
+            //
+            //if (flarLast === true) {
+            //    console.log('giv shot');
+            //    div.className = "map wide active shot";
+            //}else {
+                div.className = "map wide active";
+            //}
+
+
         }else {
+            console.log(doc_w<marginLeft);
+            if (doc_w<marginLeft) {
+                flarLast = true;
+                marginLeft = doc_w-60+'px';
+            }else{
+                marginLeft = marginLeft+'px';
+            }
             div.className = "map narrow active";
-            div.setAttribute('onclick','main.clickMap(this)');
         }
+        div.setAttribute('onclick','main.clickMap(this)');
+        div.setAttribute('onmouseout','main.mouseEvent()');
+        div.setAttribute('onmouseover','main.mouseEvent()');
         console.log(marginLeft);
         div.style.marginLeft=marginLeft;
         div.appendChild(divInn);
@@ -82,6 +105,7 @@ var main = (function(){
     return {
         init: init,
         clickMap : _handler,
+        mouseEvent: _changeBG,
     };
 
 })();

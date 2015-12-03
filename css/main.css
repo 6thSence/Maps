@@ -690,10 +690,12 @@ footer {
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 /* --------- sections --------- */
+html {
+  overflow: hidden;
+}
+
 body {
   background: #f6f2de;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
   overflow: hidden;
 }
 
@@ -753,6 +755,11 @@ body {
 }
 
 .wide {
+  width: 400px;
+  max-width: 90%;
+}
+
+.wide.active.shot {
   width: 400px;
   max-width: 90%;
 }

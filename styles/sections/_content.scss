@@ -1,6 +1,8 @@
+html {
+  overflow: hidden;
+}
 body {
   background: #f6f2de;
-  @include box-sizing;
   overflow: hidden;
 }
 .map__wrapper {
@@ -42,6 +44,10 @@ body {
   max-width: 960px;
 }
 .wide {
+  width: 400px;
+  max-width: 90%;
+}
+.wide.active.shot {
   width: 400px;
   max-width: 90%;
 }
