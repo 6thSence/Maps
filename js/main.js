@@ -1,7 +1,10 @@
 var main = (function(){
     var count= 1,// подсчет карточек, изначально всегда одна карточка
         flagCount = 0,// колличество повторяющихся карточек, если закончилось место(ширина) на экране
+        width = 960, // стандартная ширина большой карточки
+        doc_w = document.documentElement.clientWidth;//ширина экрана, понадобится для того чтобы определить хватает ли места для следующей карточки
         marginLeft = 0; // Переменная хранящее в себе следующее расположение карточки, через margin-left
+
 
     //Функции инициализации модуля
     var init = function () {
@@ -10,9 +13,11 @@ var main = (function(){
 
     //Прослушка событий мыши и кликов
     var _setUpListners = function() {
-        $('.map').on('mouseout', _changeBG);
-        $('.map').on('mouseover', _changeBG);
-        $('.map').on('click', _handler);
+        if ($('.map')) {
+            $('.map').on('mouseout', _changeBG);
+            $('.map').on('mouseover', _changeBG);
+            $('.map').on('click', _handler);
+        }
     };
 
     //Фунция для работы с кликом по карточке. Определяет еллемент события и назначает целевым еллементов всю карту.
@@ -37,9 +42,9 @@ var main = (function(){
         var parent = document.getElementById('map__wrapper'), // родитель карточек
             div = document.createElement('div'), //сама будущая карточка
             p = document.createElement('p'), // номер карточки
-            divInn = document.createElement('div'), //обертка номера карточки
-            doc_w = document.documentElement.clientWidth,//ширина экрана, понадобится для того чтобы определить хватает ли места для следующей карточки
-            width = 960; // стандартная ширина большой карточки
+            divInn = document.createElement('div'); //обертка номера карточки
+
+        doc_w = document.documentElement.clientWidth; //обновить значение на случай рисайза окна
         marginLeft = marginLeft+60;
         divInn.className = "map__number_content";
         count=count+1;
@@ -79,6 +84,8 @@ var main = (function(){
         }
         div.previousElementSibling.classList.remove('active');
         div.previousElementSibling.style.width = 400+'px'; //Всем неактивным картам задаем ширину 400 px
+        width=960;
+
     };
 
     //Функция удаления карточек
@@ -92,6 +99,19 @@ var main = (function(){
             }
             //до удаления передаем класс active предыдущей карточке
             $target.previousElementSibling.classList.add('active');
+            if ($target.previousElementSibling.classList.contains('wide')) {
+                //Проверяем вписывается ли большая карточка в оставшееся место на экране
+                if (marginLeft+960 > doc_w) {
+                    width = doc_w - marginLeft; //Задаем подходящую ширину
+                    //Если осталось меньше 400 px то остаемся на этом значении и накручиваем flagCount, чтобы знать сколько там лежит карточек
+                    if (width<400) {width=400;
+                        marginLeft=marginLeft-60;
+                        flagCount=flagCount+1;
+                    };
+                }
+                $target.previousElementSibling.style.width=width + 'px'; //Корректируем ширину
+
+            }
             count = count - 1;
             // Если flagCount (лежащие друг на друге карточки) накручен , то учитываем это при рассчете следующего расположения карточки
             if ((flagCount >0) ) {
@@ -118,11 +138,13 @@ var main = (function(){
                 break;
         }
     };
-    //Публичные функции для использования из разметки 
+    //Публичные функции для использования из разметки
     return {
         init: init,
         clickMap : _handler,
         mouseEvent: _changeBG,
     };
 })();
-main.init();
+if (main) {
+    main.init();
+}
