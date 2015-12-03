@@ -700,11 +700,12 @@ body {
 }
 
 .map__wrapper {
-  height: 100%;
+  height: 80%;
   width: 100%;
   padding: 50px;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .map {
@@ -713,7 +714,7 @@ body {
   -webkit-box-shadow: #000000 0px 0px 5px;
   -moz-box-shadow: #000000 0px 0px 5px;
   box-shadow: #000000 0px 0px 5px;
-  height: 677px;
+  height: 80%;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }

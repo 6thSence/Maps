@@ -1,5 +1,7 @@
 var main = (function(){
-    var count=1;
+    var count= 1,
+        flagCount = 0,
+        marginLeft = 0;
     var init = function () {
         _setUpListners();
     };
@@ -26,44 +28,55 @@ var main = (function(){
             div = document.createElement('div'),
             p = document.createElement('p'),
             divInn = document.createElement('div'),
-            marginLeft = count*60,
-            doc_w = document.documentElement.clientWidth-400,
-            flarLast = false;
+            doc_w = document.documentElement.clientWidth,
+            width = 960;
+
+        marginLeft = marginLeft+60;
+        console.log('mar+60=' +marginLeft);
 
 
         divInn.className = "map__number_content";
         count=count+1;
-        console.log(count);
         p.className = "map__number";
         p.innerText = count;
         divInn.appendChild(p);
         if (event.altKey) {
-            console.log(doc_w);
-            console.log(marginLeft);
 
-            console.log(doc_w-560<marginLeft);
-            if (doc_w<marginLeft) {
-                flarLast = true;
-                marginLeft = doc_w-60+'px';
-            }else{
-                marginLeft = marginLeft+'px';
-            }
-            //
-            //if (flarLast === true) {
-            //    console.log('giv shot');
-            //    div.className = "map wide active shot";
-            //}else {
-                div.className = "map wide active";
+            //console.log(doc_w-560<marginLeft);
+            //if (doc_w<marginLeft) {
+            //    flarLast = true;
+            //    marginLeft = doc_w-60+'px';
+            //}else{
+            //    marginLeft = marginLeft+'px';
             //}
+
+            if (marginLeft+960 > doc_w) {
+                console.log('to much');
+                width = doc_w - marginLeft;
+                //width = doc_w - marginLeft-200;
+                if (width<400) {width=400;
+                    marginLeft=marginLeft-60;
+                    console.log('mar-60=' +marginLeft);
+                    flagCount=flagCount+1;
+                    console.log('flagCount=' +flagCount);
+
+                };
+                console.log('width ' +width );
+            }
+            div.className = "map wide active";
+            //console.log(div.style.width);
+
 
 
         }else {
-            console.log(doc_w<marginLeft);
-            if (doc_w<marginLeft) {
-                flarLast = true;
-                marginLeft = doc_w-60+'px';
+            console.log(doc_w-400<marginLeft);
+            if (doc_w-400<marginLeft) {
+                marginLeft = marginLeft-60;
+                console.log('mar-60=' +marginLeft);
+                flagCount=flagCount+1;
+                console.log('flagCount=' +flagCount);
             }else{
-                marginLeft = marginLeft+'px';
+                //marginLeft = marginLeft+'px';
             }
             div.className = "map narrow active";
         }
@@ -71,11 +84,14 @@ var main = (function(){
         div.setAttribute('onmouseout','main.mouseEvent()');
         div.setAttribute('onmouseover','main.mouseEvent()');
         console.log(marginLeft);
-        div.style.marginLeft=marginLeft;
+        div.style.marginLeft=marginLeft+'px';
         div.appendChild(divInn);
         parent.appendChild(div);
+        if (div.classList.contains('wide')) {
+            div.style.width=width + 'px';
+        }
         div.previousElementSibling.classList.remove('active');
-
+        div.previousElementSibling.style.width = 400+'px';
     };
     var _removeMap = function($target) {
         if ($target.classList.contains('active')) {
@@ -84,9 +100,27 @@ var main = (function(){
                 return;
             }
             $target.previousElementSibling.classList.add('active');
-            $target.parentNode.removeChild($target);
             count = count - 1;
-            console.log(count);
+            if ((flagCount >0) ) {
+                flagCount= flagCount-1 ;
+                console.log('mar=' +marginLeft);
+                console.log('flagCount=' +flagCount);
+            }else {
+                marginLeft = marginLeft-60;
+                console.log('mar-60=' +marginLeft);
+                console.log('flagCount=' +flagCount);
+            }
+
+            $target.parentNode.removeChild($target);
+
+
+
+            //
+            //if (count==1) {
+            //    marginLeft = marginLeft+60;
+            //    console.log(' count=1 mar+60=' +marginLeft);
+            //
+            //}
         }else {
             alert('Карточка не активна! Можно удалить только последнюю открытую карточку');
             return;
