@@ -1,0 +1,1 @@
+var main = (function(){    var init = function () {        _setUpListners();    };    var _setUpListners = function() {        $('body').on('mouseover', _changeBG);    };    var _changeBG = function () {        console.log ('mouserover;');    }    return {        init: init    };})();main.init();
