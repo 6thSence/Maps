@@ -16,7 +16,7 @@ var main = ( function() {
         _creatCards(cards);
         $(window).bind('popstate', function() {
             cards = JSON.parse(window.history.state);
-            $('#map__wrapper').empty(); //Удаляем из DOM все карты и обнуляем счестчики
+            $('#map__wrapper').empty();
             count = 0;
             marginLeft = 0;
             flagCount = 0;
