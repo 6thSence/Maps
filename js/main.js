@@ -178,7 +178,7 @@ var main = ( function() {
             alert('Карточка неактивна! :( Можно удалить только последнюю открытую карточку.');
             return;
         }
-        history.pushState(JSON.stringify(cards), null, '');
+        history.pushState(JSON.stringify(cards), null, ' 1 ');
     };
     var _changeBG = function () {
         switch(event.type) {
