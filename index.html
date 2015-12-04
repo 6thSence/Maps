@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Maps by 6thSence</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Maps</h1>
+        <p>&quot;Новая версия 2ГИС&quot;</p>
+
+        <p class="view"><a href="https://github.com/6thSence/Maps">View the Project on GitHub <small>6thSence/Maps</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/6thSence/Maps/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/6thSence/Maps/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/6thSence/Maps">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="Новая-версия-2ГИС" class="anchor" href="#%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F-%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F-2%D0%93%D0%98%D0%A1" aria-hidden="true"><span class="octicon octicon-link"></span></a>"Новая версия 2ГИС"</h1>
+
+<h2>
+<a id="Описание" class="anchor" href="#%D0%9E%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D0%B8%D0%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>Описание</h2>
+
+<p>Разрабатывается новая версия 2ГИС. Было принято решение располагать весь контент на карточках.</p>
+
+<p>Карточки размещаются «колодой» друг над другом. Каждая следующая карточка располагается выше предыдущей. Последняя (верхняя) карточка, если она не единственная, сдвигается относительно «колоды» по оси x на 60 пикселей. Карточки занимают всю доступную высоту экрана.</p>
+
+<p><img src="images/narrow-narrow.png" alt="Две карточки"></p>
+
+<p>Если карточка единственная, то она располагается без отступа.</p>
+
+<p><img src="images/single-narrow-card.png" alt="Одна карточка"></p>
+
+<p>Карточки бывают двух видов: узкие и широкие.</p>
+
+<ul>
+<li>Узкие карточки всегда занимают ширину 400 пикселей;</li>
+<li>Широкие карточки в «колоде» занимают 400 пикселей, если широкая карточка находится наверху колоды, то она занимает всю доступную ширину, но не больше 960 пикселей.</li>
+</ul>
+
+<p><img src="images/narrow-wide.png" alt="Две карточки, последняя — широкая"></p>
+
+<p>На фоне планируется разместить карту. Пока, при наведении на всё пространство, не занятое карточками, цвет фона должен меняться на <code>#e9e6d3</code>.</p>
+
+<p>На карточке отображается её порядковый номер.</p>
+
+<p><img src="images/narrow-wide-narrow.png" alt="Одна карточка"></p>
+
+<h2>
+<a id="Формат" class="anchor" href="#%D0%A4%D0%BE%D1%80%D0%BC%D0%B0%D1%82" aria-hidden="true"><span class="octicon octicon-link"></span></a>Формат</h2>
+
+<p>Карточки описываются массивом такого вида:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> cards <span class="pl-k">=</span> [
+    {
+        type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>narrow<span class="pl-pds">'</span></span>
+    },
+    {
+        type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>wide<span class="pl-pds">'</span></span>
+    }
+];</pre></div>
+
+<p>Параметр <code>type</code> для каждого элемента отвечает за то, какого типа карточку выводить — узкую (narrow) или широкую (wide).</p>
+
+<h2>
+<a id="Ход-работы" class="anchor" href="#%D0%A5%D0%BE%D0%B4-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B" aria-hidden="true"><span class="octicon octicon-link"></span></a>Ход работы</h2>
+
+<ol>
+<li>На страницу подключается файл <code>cards.js</code> со стартовым набором карточек;
+
+<ul>
+<li>в процессе проверки файл <code>cards.js</code> может быть заменен на любой другой валидный файл, соответствующий формату;</li>
+<li>карточек может быть произвольное количество.</li>
+</ul>
+</li>
+<li>
+<code>Click</code> по карточкам удаляет последнюю карточку. <code>Shift+Click</code> — добавляет новую карточку сверху типа <code>narrow</code>, <code>Shift+Alt+Click</code> — добавляет новую карточку сверху типа <code>wide</code>;</li>
+<li>Поддерживаются переходы по истории браузера. Например, с помощью <code>Shift+Click</code> была добавлена новая карточка, кнопка «Назад» в браузере, возвращает страницу на шаг назад, то есть удаляет последнюю карточку.</li>
+</ol>
+
+<blockquote>
+<p>В работе используется библиотека jQuery.</p>
+</blockquote>
+
+<h2>
+<a id="Документация" class="anchor" href="#%D0%94%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/6thSence/Maps/blob/master/Documentation.md">Документация</a>
+</h2>
+
+<h2>
+<a id="Инструкция-по-установке-приложения" class="anchor" href="#%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D0%B8%D1%8F-%D0%BF%D0%BE-%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B5-%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>Инструкция по установке приложения</h2>
+
+<pre><code>1. git clone https://github.com/6thSence/Maps.git cards
+2. cd cards
+3. npm install
+4. bower install
+5. gem install compass
+6. gulp
+</code></pre>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/6thSence">6thSence</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
