@@ -703,8 +703,6 @@ body {
   height: 80%;
   width: 100%;
   padding: 50px;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
   overflow: hidden;
 }
 
