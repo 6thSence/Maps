@@ -4,7 +4,7 @@ var main = (function(){
         width = 960, // стандартная ширина большой карточки
         doc_w = document.documentElement.clientWidth,//ширина экрана, понадобится для того чтобы определить хватает ли места для следующей карточки
         marginLeft = 0, // Переменная хранящее в себе следующее расположение карточки, через margin-left
-        firstReload =  true;
+        firstReload =  true; //Флаг отслеживания первой загрузки страницы
 
 
     //Функции инициализации модуля
@@ -18,15 +18,19 @@ var main = (function(){
         $('.map').on('mouseover', _changeBG);
         $('.map').on('click', _handler);
         _creatCards(cards);
-
+        //Слежка за собылием перехода по истории
         $(window).bind('popstate', function() {
+            //Берем из объекта истории наш соханенный массив с карточками в формате JSON и парсим
             cards = JSON.parse(window.history.state);
-            $('#map__wrapper').empty();
+            $('#map__wrapper').empty(); //Удаляем из DOM все карты и обнуляем счестчики
             count=0;
             marginLeft = 0;
             flagCount= 0;
-            firstReload=false;
-            _creatCards(cards);
+            firstReload=false; //Сбрасываем флаг первой загрузки страницы
+            //Проверка на существование карт
+            if (cards) {
+                _creatCards(cards); //Создаем новые карточки из массива полученного из истории
+            };
         });
     };
 
@@ -95,6 +99,7 @@ var main = (function(){
             }
             width=960;
         });
+        //Если страница загруженная впервые то сохраняем исходное состояние в истории
         if (firstReload) {
         history.pushState(JSON.stringify(cards), null, null);
         };
@@ -170,6 +175,7 @@ var main = (function(){
         div.previousElementSibling.classList.remove('active');
         div.previousElementSibling.style.width = 400+'px'; //Всем неактивным картам задаем ширину 400 px
         width=960;
+        //При добавлении новой карточки сохраняем состояниие истории
         history.pushState(JSON.stringify(cards), null, null);
     };
 
@@ -211,7 +217,8 @@ var main = (function(){
             alert('Карточка неактивна! :( Можно удалить только последнюю открытую карточку.');
             return;
         }
-        history.pushState(JSON.stringify(cards), null, '?delete');
+        //При удалении карточки сохраняем новое состояниие
+        history.pushState(JSON.stringify(cards), null, '');
     }
 
     //Функция подсвечивания фона другим цветом
@@ -233,7 +240,9 @@ var main = (function(){
         mouseEvent: _changeBG,
     };
 })();
-if ($('.map')) {
+
+//Инициализация модуля
+if ($('.map__wrapper')) {
     main.init();
 }
 
